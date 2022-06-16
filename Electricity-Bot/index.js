@@ -13,6 +13,8 @@ process.env.DEBUG = 'dialogflow:debig';
 
 
     function handleWelcome(agent) {
+        const auth = {'name': 'auth', 'lifespan': 100, 'parameters': {}};
+        agent.context.set(auth);
         agent.add(`Hi \nHope you are doing fine? \nI am Elc-Buddy your electricity payment guy. \nHere is a list of available DISCOs: 
         \n1 Abuja Distribution Company
         \n2 Enugu Distribution Company
@@ -25,7 +27,27 @@ process.env.DEBUG = 'dialogflow:debig';
         \n9 Port Harcourt Distribution Company
         \n10 Kano Distribution Company
         \n11 Ikeja Distribution Company
-        \nSelect your DISCO option from the above`)
+        \nSelect your DISCO option from the above`);
+    }
+
+    function handleDisco(agent) {
+        const auth = agent.context.get('auth');
+        const disco_number = auth.parameters.disco;
+        if (disco > 0) {
+            agent.add(`How many unit of electricity do you want to buy?`);
+        } else {
+            agent.add(`Kindly enter any of listed number alongside the DISCOs`);
+        }
+    }
+
+    function handlePowerUnit(agent) {
+        const auth = agent.context.get('auth');
+        const power_unit = auth.parameters.number;
+        if (power_unit%100 === 0 && power_unit > 0) {
+            agent.add(`That is ${power_unit} unit of electricity from ${auth.parameters.disco}`);
+        } else {
+            agent.add(`Kindly enter a valid amount power unit e.g in multiples of 100s`);
+        }
     }
     let intentMap = new Map();
     intentMap.set('welcome', handleWelcome);
