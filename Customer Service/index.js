@@ -67,28 +67,6 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
   const token = 'token';
   const delivery_method_list = ['none', 'delivery', 'pickup'];
   const payment_method_list = ['None', 'cash', 'bank'];
-  const url = {"beef with bone": "https://dl.dropbox.com/s/uo03vpr2eklnri6/bone_chop.JPG?dl=0",
-    "cow tail": "https://drive.google.com/file/d/1zxxC_hSk7VOH8DaWZ0Ex_Nb3Ubu8hMqF/view?usp=sharing",
-    "boneless beef": "https://dl.dropbox.com/s/25457i1umwaobnx/beef_without_bone.JPG?dl=0",
-    "boneless beef mini": "https://drive.google.com/file/d/1BWzRRCFFmwPZeHg3vZW9oMcfW-T_Q5cc/view?usp=sharing",
-    "agemawo": "https://dl.dropbox.com/s/wgx869ipwf59a16/beef_with_skin.JPG?dl=0",
-    "cow head": "https://drive.google.com/file/d/1C9mrnzD2d3IKKtcxCGG_kEbtvNuvcTAn/view?usp=sharing",
-    "cow hump": "https://drive.google.com/file/d/1WXeCC14kRVMBgQiT9hAfmvjpsM3O4GmK/view?usp=sharing",
-    "assorted": "https://dl.dropbox.com/s/z7aa2jsebcweh60/assorted_meat.JPG?dl=0",
-    "cow liver": "",
-    "cow intestine": "",
-    "shaki": "https://drive.google.com/file/d/14LOJtoTCyLXkvYoBigwt4aU2HlJYUq6D/view?usp=sharing",
-    "cow leg": "",
-    "minced meat": "https://drive.google.com/file/d/1jei51YuiaHIn-UFksjmuQtS_nDFfgSFK/view?usp=sharing", 
-    "cow heart": "", 
-    "cow kidney": "",
-    "ponmo": "https://dl.dropbox.com/s/juh25wdktyccylc/ponmo.JPG?dl=0",
-    "cow lungs": "https://drive.google.com/file/d/14LOJtoTCyLXkvYoBigwt4aU2HlJYUq6D/view?usp=sharing",
-    "goat meat": "https://dl.dropbox.com/s/3rbsce7aon9vr84/goat_meat.JPG?dl=0", 
-    "goat assorted": "https://drive.google.com/file/d/14LOJtoTCyLXkvYoBigwt4aU2HlJYUq6D/view?usp=sharing",
-    "goat head and leg": "",
-    "chicken": "https://drive.google.com/file/d/14LOJtoTCyLXkvYoBigwt4aU2HlJYUq6D/view?usp=sharing",
-    "gizzard": "https://drive.google.com/file/d/14LOJtoTCyLXkvYoBigwt4aU2HlJYUq6D/view?usp=sharing"};
   
   
   function handleWelcome(agent) {
@@ -889,9 +867,7 @@ agent.add("Kindly reply with your full name and phone number to get access to th
   function productFaq(agent) {
     const auth = agent.context.get("auth");
   	const product = auth.parameters.product;
-    const prod_url = url[product.toLowerCase()];
     agent.add(`${product}`);
-    agent.add(`Image is: ${prod_url}`);
   }
   function completeWithCash(agent) {
   if (agent.context.get("ordrerconfirm-yes-pickup")) {
