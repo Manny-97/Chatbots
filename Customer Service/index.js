@@ -17,49 +17,12 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
   console.log('Dialogflow Request body: ' + JSON.stringify(request.body));
  
   const store = [
-    "default", 
-    "agemawo",
-    "cow tail",
-    "boneless beek",
-    "boneless beef",
-    "boneless beef mini",
-    "beef with bone",
-    "cow head",
-    "cow hump",
-    "assorted",
-    "cow liver",
-    "cow intestine",
-    "shaki",
-    "cow leg",
-    "minced meat", 
-    "cow heart", 
-    "cow kidney",
-    "ponmo",
-    "cow lungs",
-    "goat meat", 
-    "goat assorted",
-    "goat head and leg",
-    "chicken",
-    "chicken wings",
-    "chicken lap",
-    "agemawo 1kg",
-    "agemawo token",
-    "shaki and roundabout",
-    "tail token",
-    "head & neck token",
-    "cow hump token",
-    "test ponmo",
-    "cow tongue",
-    "value pack hake",
-    "token hake",
-    "value pack titus",
-    "gizzard",
-    "token panla",
+    "A list of what is you sell"
   ],
-  store1 = ['default', 'boneless beef', 'agemawo'],     
-  Chicken = ['chicken', 'gizzard', 'chicken lap', "chicken wings", 'chicken token'],
-  Fish = ["token hake", "value pack titus", "value pack hake", "token panla"],
-  Goat =['goat meat', 'goat head and leg', 'goat assorted', 'goat meat token'];
+  store1 = [],     
+  Chicken = [],
+  Fish = [],
+  Goat =[];
  
   const substitute = [];
   const prod_link = "base_url";
@@ -154,11 +117,11 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
       {
         "image": {
           "src": {
-            "rawUrl": "https://dl.dropbox.com/s/wgx869ipwf59a16/beef_with_skin.JPG?dl=0"
+            "rawUrl": ""
           }
         },
         "title": "Agemawo",
-        "actionLink": "https://dl.dropbox.com/s/wgx869ipwf59a16/beef_with_skin.JPG?dl=0",
+        "actionLink": "",
         "type": "info"
       },
       {
@@ -167,11 +130,11 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
       {
         "image": {
           "src": {
-            "rawUrl": "https://dl.dropbox.com/s/25457i1umwaobnx/beef_without_bone.JPG?dl=0"
+            "rawUrl": ""
           }
         },
         "title": "Boneless Beef",
-        "actionLink": "https://dl.dropbox.com/s/25457i1umwaobnx/beef_without_bone.JPG?dl=0",
+        "actionLink": "",
         "type": "info"
       },
       {
@@ -180,11 +143,11 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
       {
         "image": {
           "src": {
-            "rawUrl": "https://dl.dropbox.com/s/z7aa2jsebcweh60/assorted_meat.JPG?dl=0"
+            "rawUrl": ""
           }
         },
         "title": "Assorted Meat",
-        "actionLink": "https://dl.dropbox.com/s/z7aa2jsebcweh60/assorted_meat.JPG?dl=0",
+        "actionLink": "",
         "type": "info"
       },
       {
@@ -193,11 +156,11 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
       {
         "image": {
           "src": {
-            "rawUrl": "https://drive.google.com/file/d/1jei51YuiaHIn-UFksjmuQtS_nDFfgSFK/view?usp=sharing"
+            "rawUrl": ""
           }
         },
         "title": "Minced Meat",
-        "actionLink": "https://drive.google.com/file/d/1jei51YuiaHIn-UFksjmuQtS_nDFfgSFK/view?usp=sharing",
+        "actionLink": "",
         "type": "info"
       },
       {
@@ -206,11 +169,11 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
       {
         "image": {
           "src": {
-            "rawUrl": "https://dl.dropbox.com/s/3rbsce7aon9vr84/goat_meat.JPG?dl=0"
+            "rawUrl": ""
           }
         },
         "title": "Goat Meat",
-        "actionLink": "https://dl.dropbox.com/s/3rbsce7aon9vr84/goat_meat.JPG?dl=0",
+        "actionLink": "",
         "type": "info"
       },
       {
@@ -219,11 +182,11 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
       {
         "image": {
           "src": {
-            "rawUrl": "https://dl.dropbox.com/s/uo03vpr2eklnri6/bone_chop.JPG?dl=0"
+            "rawUrl": ""
           }
         },
         "title": "Beef with bone",
-        "actionLink": "https://dl.dropbox.com/s/uo03vpr2eklnri6/bone_chop.JPG?dl=0",
+        "actionLink": "",
         "type": "info"
       }
     ]
