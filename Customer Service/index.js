@@ -20,7 +20,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
     "A list of what is you sell"
   ],
   store1 = [],     
-  Chicken = [],
+  Product_Category1 = [],
   Fish = [],
   Goat =[];
  
@@ -248,7 +248,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
   function menu(agent) {
     const auth = agent.context.get('auth');
     if (agent.context.get('auth')) {
-       agent.add(`This is what we have available: \nA. Cow 🐄 \nB. Goat 🐐 \nC. Chicken 🐓 \nD. Fish 🐟\nEnter any of the options to see products under it.`);
+       agent.add(`This is what we have available: \nA. Cow 🐄 \nB. Goat 🐐 \nC. Product_Category1 🐓 \nD. Fish 🐟\nEnter any of the options to see products under it.`);
      }else{
      agent.add("Kindly reply with your full name and phone number to get access to the store \ne.g. Shade Adefemi, 08212324456");
      }
@@ -265,7 +265,7 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
       .then((res) => {
         for (let i=0; i < res.data.data.length; i++) {
           const element = res.data.data[i];
-          if (!Goat.includes(element.bundle_product.toLowerCase()) && !Chicken.includes(element.bundle_product.toLowerCase()) && !Fish.includes(element.bundle_product.toLowerCase())) {
+          if (!Goat.includes(element.bundle_product.toLowerCase()) && !Product_Category1.includes(element.bundle_product.toLowerCase()) && !Fish.includes(element.bundle_product.toLowerCase())) {
           if (element.pu_quantity != 0) {
           answer +=`❖${element.bundle_product} ₦${element.price}/pack` + `\n`;
           }
@@ -345,7 +345,7 @@ function capitalizeFirstLetter(string) {
   function chicken(agent) {
     const auth = agent.context.get("auth");
     const fufilment_center = auth.parameters.fulfilment_center;
-    var answer = `𝐂𝐡𝐢𝐜𝐤𝐞𝐧: \n`;
+    var answer = `Product_Category1: \n`;
     return axios
       .get(`${prod_link}/stocks/items/?fulfilment_center=${fufilment_center}`, {"headers": {
         "Authorization": `Token ${token}`
@@ -353,7 +353,7 @@ function capitalizeFirstLetter(string) {
       .then((res) => {
         for (let i=0; i < res.data.data.length; i++) {
           const element = res.data.data[i];
-          if (Chicken.includes(element.bundle_product.toLowerCase())) {
+          if (Product_Category1.includes(element.bundle_product.toLowerCase())) {
           if (element.pu_quantity != 0) {
           answer +=`❖${element.bundle_product} ₦${element.price}/pack` + `\n`;
           }
@@ -365,7 +365,7 @@ function capitalizeFirstLetter(string) {
       } if (answer != "𝐂𝐡𝐢𝐜𝐤𝐞𝐧: \n") {
         agent.add(answer + `𝐖𝐡𝐚𝐭 𝐰𝐨𝐮𝐥𝐝 𝐲𝐨𝐮 𝐥𝐢𝐤𝐞 𝐭𝐨 𝐨𝐫𝐝𝐞𝐫?`);
       }else{
-      agent.add(`There is no Chicken product in store`);}
+      agent.add(`There is no Product_Category1 product in store`);}
       })
       .catch((err) => agent.add(`An error occurred ${err.message}`));
       }
@@ -399,7 +399,7 @@ function capitalizeFirstLetter(string) {
       }
   
   function submenu2(agent) {
-  	agent.add(`𝐂𝐡𝐢𝐜𝐤𝐞𝐧: \n\t ❖Chicken \n\t ❖Gizzard \n𝐓𝐨𝐤𝐞𝐧: \n\t ❖Chicken\nEnter any of the options to select a product.`);
+  	agent.add(``);
   }
   function itemProduct(agent) {
     const itemChosen = agent.parameters.itemgoat.goat;
