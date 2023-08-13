@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bot-service-staging
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 2
+      maxSurge: 2
+  selector:
+    matchLabels:
+      app: bot-service-staging
+  template:
+    metadata:
+      labels:
+        app: bot-service-staging
+    spec:
+      serviceAccountName: sendme
+      containers:
+        - name: bot-service-staging
+          image: 796834059009.dkr.ecr.eu-west-1.amazonaws.com/bot-service:$BUILD_NUMBER
+          securityContext:
+            privileged: false
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - secretRef:
+                name: credentials  
+

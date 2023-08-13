@@ -1,0 +1,43 @@
+---
+version: 0.2
+phases:
+  install:
+    commands:
+      - apt install jq -y
+      - curl -sS -o aws-iam-authenticator https://amazon-eks.s3-us-west-2.amazonaws.com/1.10.3/2018-07-26/bin/linux/amd64/aws-iam-authenticator
+      - curl -sS -o kubectl https://amazon-eks.s3-us-west-2.amazonaws.com/1.14.6/2019-08-22/bin/linux/amd64/kubectl
+      - chmod +x ./kubectl ./aws-iam-authenticator
+      - export PATH=$PWD/:$PATH
+      - chmod +x environment.sh
+      - bash environment.sh
+      - aws s3 cp s3://sendme-config-files/google.json .
+      
+  pre_build:
+      commands:
+        - docker login --username $USERNAME --password=$PASSWORD
+        - export KUBECONFIG=$HOME/.kube/config
+        - BUILD_NUMBER=$(echo $CODEBUILD_BUILD_NUMBER)
+  build:
+    commands:
+      - docker build -t bot-service .
+      - docker tag bot-service:latest $REPOSITORY_URI:$BUILD_NUMBER
+      - aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin 796834059009.dkr.ecr.eu-west-1.amazonaws.com
+      - docker push $REPOSITORY_URI:$BUILD_NUMBER
+
+  post_build:
+    commands:
+      - CREDENTIALS=$(aws sts assume-role --role-arn $EKS_KUBECTL_ROLE_ARN --role-session-name codebuild-kubectl --duration-seconds 900)
+      - export AWS_ACCESS_KEY_ID="$(echo ${CREDENTIALS} | jq -r '.Credentials.AccessKeyId')"
+      - export AWS_SECRET_ACCESS_KEY="$(echo ${CREDENTIALS} | jq -r '.Credentials.SecretAccessKey')"
+      - export AWS_SESSION_TOKEN="$(echo ${CREDENTIALS} | jq -r '.Credentials.SessionToken')"
+      - export AWS_EXPIRATION=$(echo ${CREDENTIALS} | jq -r '.Credentials.Expiration')
+      - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME
+      - aws secretsmanager get-secret-value --secret-id $AWS_SECRET_ID --region $AWS_REGION | jq -r '.SecretString' | jq -r "to_entries|map(\"\(.key)=\\\"\(.value|tostring)\\\"\")|.[]" > .env
+      - kubectl config set-context --current --namespace=$NAMESPACE
+      - kubectl delete secret credentials
+      - kubectl create secret generic credentials --from-env-file ./.env
+      - envsubst < $MANIFEST | kubectl apply -f - --namespace=$NAMESPACE
+      - printf '[{"name":"inventory-k8s","imageUri":"%s"}]' $REPOSITORY_URI:$BUILD_NUMBER > build.json
+      - echo Build completed on `date`
+artifacts:
+  files: build.json
